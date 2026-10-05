@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Khaatabook</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.9.0/fonts/remixicon.css" rel="stylesheet" />
+</head>
+
+<body>
+    <section class="navbar flex items-center justify-between px-25 py-4">
+        <div class="flex items-center gap-2">
+            <h6 class="text-xl text-blue-700 bg-blue-200 w-10 h-10 flex items-center justify-center rounded-full"><i
+                    class="ri-book-open-line"></i></h6>
+            <h1 class="text-2xl font-bold">Khaatabook</h1>
+        </div>
+        <div class="flex items-center gap-6">
+            <a class="text-lg font-semibold hover:text-blue-500" href="/">Home</a>
+            <a class="text-lg font-semibold hover:text-blue-500" href="/create">Create New Hisaab</a>
+        </div>
+    </section>
+    <section class="container px-25 py-4">
+        <div class="flex items-center gap-2 cursor-pointer pb-4" onclick="window.location.href='/'">
+            <i class="ri-arrow-left-line"></i>
+            <h3>Back to home</h3>
+        </div>
+        <h1 class="text-3xl font-bold mb-6">Create New Hisaab Entry</h1>
+        <form action="/create" method="post" class="space-y-4">
+            <% if (error) { %>
+                <p class="text-red-600" role="alert">
+                    <%= error %>
+                </p>
+                <% } %>
+                    <div>
+                        <label for="data" class="block text-lg font-semibold mb-2">Details</label>
+                        <textarea name="data" id="data" class="w-full border border-gray-300 p-2 rounded-lg" rows="8"
+                            required><%= data %></textarea>
+                    </div>
+                    <input type="submit" value="Create Hisaab"
+                        class="bg-blue-400 text-white py-2 px-4 rounded-lg cursor-pointer hover:bg-blue-500">
+        </form>
+    </section>
+</body>
+
+</html>

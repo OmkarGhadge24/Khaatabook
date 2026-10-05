@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Khaatabook</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.9.0/fonts/remixicon.css" rel="stylesheet" />
+</head>
+
+<body>
+    <section class="navbar flex items-center justify-between px-25 py-4">
+        <div class="flex items-center gap-2">
+            <h6 class="text-xl text-blue-700 bg-blue-200 w-10 h-10 flex items-center justify-center rounded-full"><i class="ri-book-open-line"></i></h6>
+            <h1 class="text-2xl font-bold">Khaatabook</h1>
+        </div>
+        <div class="flex items-center gap-6">
+            <a class="text-lg font-semibold hover:text-blue-500" href="/">Home</a>
+            <a class="text-lg font-semibold hover:text-blue-500" href="/create">Create New Hisaab</a>
+        </div>
+    </section>
+    <section>
+        <div class="px-25 py-4">
+            <div class="mb-4 flex flex-col">
+                <h3 class="text-2xl font-bold">
+                    All Hisaab
+                </h3>
+                <h6 class="text-lg text-gray-600">
+                    Your date-wise records of expenses and income are stored here.
+                </h6>
+            </div>
+            <div class="grid grid-cols-2 gap-5">
+                <div class="stat-card flex items-center gap-4 border border-gray-200 p-4 rounded-lg max-w-sm">
+                    <div class="stat-icon bg-blue-200 text-blue-600 text-3xl p-2 rounded-lg"><i
+                            class="ri-file-text-line"></i></div>
+                    <div>
+                        <p class="text-lg font-semibold text-slate-500">Total Hisaab</p>
+                        <p class="text-2xl font-black text-slate-800">
+                            <%= totalEntries %>
+                        </p>
+                    </div>
+                </div>
+                <div class="stat-card flex items-center gap-4 border border-gray-200 p-4 rounded-lg max-w-sm">
+                    <div class="stat-icon bg-green-200 text-green-600 text-3xl p-2 rounded-lg"><i
+                            class="ri-calendar-event-line"></i></div>
+                    <div>
+                        <p class="text-lg font-semibold text-slate-500">Latest Entry</p>
+                        <p class="text-2xl font-black text-slate-800">
+                            <%= latestEntry %>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="px-25 py-4">
+            <% files.forEach(function(file) { %>
+                <div class="mb-2 border border-gray-200 p-4 rounded-lg flex items-center gap-4">
+                    <div class="bg-blue-200 text-blue-600 text-xl p-2 rounded-lg">
+                        <%= getDateData(file) %>
+                    </div>
+                    <a class="text-lg font-semibold" href="/edit/<%= file %>">
+                        <%= file %>
+                    </a>
+                    <div class="flex items-center gap-4 ml-auto">
+                        <div class="flex items-center gap-2 cursor-pointer border border-green-500 text-green-500 hover:bg-green-100 p-2 rounded"
+                            onclick="window.location.href='/edit/<%= file %>'">
+                            <i class="ri-pencil-line"></i>
+                            <p>Edit</p>
+                        </div>
+                        <button type="button"
+                            class="delete-button flex items-center gap-2 cursor-pointer border border-red-500 text-red-500 hover:bg-red-100 p-2 rounded"
+                            data-date="<%= getDateData(file) %>">
+                            <i class="ri-delete-bin-line"></i>
+                            <p>Delete</p>
+                        </button>
+                    </div>
+                </div>
+                <%}) %>
+        </div>
+    </section>
+    <%- include("DeleteFile") %>
+    <script>
+        const popup = document.getElementById("delete-popup");
+        const dateText = document.getElementById("delete-date");
+
+        function closeDeletePopup() {
+            popup.classList.add("hidden");
+            popup.classList.remove("flex");
+            popup.setAttribute("aria-hidden", "true");
+        }
+
+        document.querySelectorAll(".delete-button").forEach((button) => {
+            button.addEventListener("click", () => {
+                dateText.textContent = button.dataset.date;
+                popup.classList.remove("hidden");
+                popup.classList.add("flex");
+                popup.setAttribute("aria-hidden", "false");
+            });
+        });
+
+        document.getElementById("cancel-delete").addEventListener("click", closeDeletePopup);
+        document.getElementById("close-delete").addEventListener("click", closeDeletePopup);
+        popup.addEventListener("click", (event) => {
+            if (event.target === popup) closeDeletePopup();
+        });
+        document.addEventListener("keydown", (event) => {
+            if (event.key === "Escape" && !popup.classList.contains("hidden")) {
+                closeDeletePopup();
+            }
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,4 @@
+Pen - 20
+Pencile - 10
+Eraser - 5
+Sharpner - 15

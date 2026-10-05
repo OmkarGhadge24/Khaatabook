@@ -1,0 +1,4 @@
+Chai - 30
+Exam Fee - 2500
+Samosa - 20
+Ball - 60
